@@ -20,7 +20,7 @@ public class Car {
     private String brand;
     private String model;
     @ManyToOne
-    @JoinColumn(name = "engine_id", foreignKey = @ForeignKey(name = "ENGINE_ID_FK"))
+    @JoinColumn(name = "engines_id", foreignKey = @ForeignKey(name = "ENGINE_ID_FK"))
     private Engine engine;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "history_owner", joinColumns = {
@@ -35,6 +35,10 @@ public class Car {
             car.model = model;
             car.engine = engine;
             return car;
+    }
+
+    public void addDriver(Driver driver) {
+        drivers.add(driver);
     }
 
     public int getId() {

@@ -22,5 +22,12 @@
         <mapping class="models.Engine"/>
         <mapping class="models.Car"/>
         <mapping class="models.Driver"/>
+
+        <mapping class="models.Advertisement"/>
+        <mapping class="models.User"/>
+        <mapping class="models.Body"/>
+        <mapping class="models.Brand"/>
+        <mapping class="models.Mark"/>
+        <mapping class="models.Photo"/>
     </session-factory>
 </hibernate-configuration>
