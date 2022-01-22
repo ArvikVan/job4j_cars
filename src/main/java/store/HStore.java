@@ -1,11 +1,14 @@
 package store;
 
+import models.Advertisement;
 import models.Car;
 import models.Driver;
 import models.Engine;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 /**
  * @author ArvikV
@@ -21,12 +24,20 @@ public class HStore {
             session = sf.openSession();
             session.beginTransaction();
 
-            Engine engine = Engine.of("WOLOTGF4556-06");
+           /* Engine engine = Engine.of("WOLOTGF4556-06");
             session.save(engine);
             Car car = Car.of("Opel", "Zafira-A", engine);
             Driver driver = Driver.of("Koromislov");
             car.addDriver(driver);
-            session.save(car);
+            session.save(car);*/
+            List<Advertisement> result = session.createQuery(
+                    "select distinct a from Advertisement a "
+                            + "join fetch a.brands b "
+                            + "join fetch b.advertisements "
+                            + "where a.photo = true",
+                            Advertisement.class)
+                            .getResultList();
+            System.out.println(result);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
