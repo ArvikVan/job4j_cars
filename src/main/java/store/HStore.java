@@ -32,8 +32,9 @@ public class HStore {
             session.save(car);*/
             List<Advertisement> result = session.createQuery(
                     "select distinct a from Advertisement a "
-                            + "join fetch a.brands b "
-                            + "join fetch b.advertisements "
+                            + "join fetch a.brands "
+                            + "join fetch a.bodies "
+                            + "join fetch a.users "
                             + "where a.photo = true",
                             Advertisement.class)
                             .getResultList();

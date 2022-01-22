@@ -57,20 +57,33 @@ public class AdRepository implements Store, AutoCloseable {
     @Override
     public List<Advertisement> advertisementListForLastDay() {
         return this.tx(session -> session.createQuery(
-                "from Advertisement where day(current_timestamp - created) <= 1").list());
+                "select distinct a from Advertisement a "
+                        + "join fetch a.brands "
+                        + "join fetch a.bodies "
+                        + "join fetch a.users "
+                        + " where day(current_timestamp - a.created) <= 1").list());
     }
 
     @Override
     public List<Advertisement> advertisementListWithPhotos() {
         return this.tx(session -> session.createQuery(
-                "from Advertisement where photo = true").getResultList());
+                        "select distinct a from Advertisement a "
+                                + "join fetch a.brands "
+                                + "join fetch a.bodies "
+                                + "join fetch a.users "
+                                + "where a.photo = true",
+                        Advertisement.class)
+                .getResultList());
     }
 
     @Override
     public List<Advertisement> advertisementByBrand(int brand) {
         return this.tx(session -> session.createQuery(
-                "from Advertisement a where a.brands.id =: aId"
-                ) .setParameter("aId", brand).getResultList()
-        );
+                "select distinct a from Advertisement a "
+                        + "join fetch a.brands "
+                        + "join fetch a.bodies "
+                        + "join fetch a.users "
+                        + "where a.brands.id =: aId"
+                ) .setParameter("aId", brand).getResultList());
     }
 }
