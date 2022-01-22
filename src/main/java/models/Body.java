@@ -28,6 +28,12 @@ public class Body {
         this.name = name;
     }
 
+    public static Body of(String name) {
+        Body body = new Body();
+        body.name = name;
+        return body;
+    }
+
     public void addAdvertisement(Advertisement advertisement) {
         advertisements.add(advertisement);
         advertisement.setBodies(this);

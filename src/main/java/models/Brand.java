@@ -33,6 +33,12 @@ public class Brand {
         advertisement.setBrands(this);
     }
 
+    public static Brand of(String name) {
+        Brand brand = new Brand();
+        brand.name = name;
+        return brand;
+    }
+
     public int getId() {
         return id;
     }

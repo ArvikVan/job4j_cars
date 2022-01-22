@@ -17,9 +17,10 @@ create table if not exists advertisement(
     description varchar (250),
     brand_id int references brands (id),
     bodies_id int references bodies (id),
-    mark_id int references mark (id),
-    users_id int references users (id)
-    sold boolean not null
+    users_id int references users (id),
+    sold boolean not null,
+    created TIMESTAMP,
+    photo boolean
 );
 create table if not exists photos(
     id serial primary key,

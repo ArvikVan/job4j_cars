@@ -27,7 +27,6 @@
         <mapping class="models.User"/>
         <mapping class="models.Body"/>
         <mapping class="models.Brand"/>
-        <mapping class="models.Mark"/>
         <mapping class="models.Photo"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,7 +1,9 @@
 package models;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,40 +22,96 @@ public class Advertisement {
     private String description;
     @Column(name = "sold")
     private Boolean sold;
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brand;
-    @ManyToOne
-    @JoinColumn(name = "bodies_id")
-    private Body body;
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private User user;
     @OneToMany(mappedBy = "advertisement", cascade = CascadeType.ALL)
     private List<Photo> photoList = new ArrayList<>();
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brands_id", insertable = false, updatable = false)
     private Brand brands;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mark_id", insertable = false, updatable = false)
-    private Mark mark;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "bodies_id", insertable = false, updatable = false)
     private Body bodies;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", insertable = false, updatable = false)
     private User users;
 
-    public User getUsers() {
-        return users;
+    private boolean photo;
+
+    public Advertisement() {
     }
 
-    public void setUsers(User users) {
+    public Advertisement(String description, Boolean sold, Date created,
+                         User users, boolean photo) {
+        this.description = description;
+        this.sold = sold;
+        this.created = new Date(System.currentTimeMillis());
         this.users = users;
+        this.photo = photo;
+    }
+
+    public static Advertisement of(String description, Boolean sold, boolean photo,
+                                   Date created, Body bodies, Brand brands, User users) {
+            Advertisement advertisement = new Advertisement();
+            advertisement.description = description;
+            advertisement.sold = sold;
+            advertisement.photo = photo;
+            advertisement.created = new Date(System.currentTimeMillis());
+            advertisement.bodies = bodies;
+            advertisement.brands = brands;
+            advertisement.users = users;
+            return  advertisement;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getSold() {
+        return sold;
+    }
+
+    public void setSold(Boolean sold) {
+        this.sold = sold;
+    }
+
+    public List<Photo> getPhotoList() {
+        return photoList;
+    }
+
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Brand getBrands() {
+        return brands;
+    }
+
+    public void setBrands(Brand brands) {
+        this.brands = brands;
     }
 
     public Body getBodies() {
@@ -64,20 +122,20 @@ public class Advertisement {
         this.bodies = bodies;
     }
 
-    public Mark getMark() {
-        return mark;
+    public User getUsers() {
+        return users;
     }
 
-    public void setMark(Mark mark) {
-        this.mark = mark;
+    public void setUsers(User users) {
+        this.users = users;
     }
 
-    public Brand getBrands() {
-        return brands;
+    public boolean isPhoto() {
+        return photo;
     }
 
-    public void setBrands(Brand brands) {
-        this.brands = brands;
+    public void setPhoto(boolean photo) {
+        this.photo = photo;
     }
 
     @Override
@@ -95,5 +153,19 @@ public class Advertisement {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Advertisement{"
+                + "id=" + id
+                + ", description='" + description + '\''
+                + ", sold=" + sold
+                + ", created=" + created
+                + ", brands=" + brands
+                + ", bodies=" + bodies
+                + ", users=" + users
+                + ", photo=" + photo
+                + '}';
     }
 }

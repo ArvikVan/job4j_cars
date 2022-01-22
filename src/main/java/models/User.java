@@ -28,10 +28,20 @@ public class User {
     public User() {
     }
 
+    public User(String name) {
+        this.name = name;
+    }
+
     public User(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
+    }
+
+    public static User of(String name) {
+        User user = new User();
+        user.name = name;
+        return user;
     }
 
     public void addAdvertisement(Advertisement advertisement) {
