@@ -77,13 +77,13 @@ public class AdRepository implements Store, AutoCloseable {
     }
 
     @Override
-    public List<Advertisement> advertisementByBrand(int brand) {
+    public List<Advertisement> advertisementByBrand(String brand) {
         return this.tx(session -> session.createQuery(
                 "select distinct a from Advertisement a "
                         + "join fetch a.brands "
                         + "join fetch a.bodies "
                         + "join fetch a.users "
-                        + "where a.brands.id =: aId"
-                ) .setParameter("aId", brand).getResultList());
+                        + "where a.brands.name =: aName"
+                ) .setParameter("aName", brand).getResultList());
     }
 }

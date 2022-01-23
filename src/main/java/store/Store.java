@@ -17,6 +17,6 @@ public interface Store {
 
     List<Advertisement> advertisementListWithPhotos();
 
-    List<Advertisement> advertisementByBrand(int brand);
+    List<Advertisement> advertisementByBrand(String brand);
 
 }
